@@ -1,0 +1,13 @@
+.header {
+  text-align: center;
+}
+
+/* CSS */
+.input {
+  transition: width 0.3s ease; /* Add transition for smooth resizing */
+  width: 100px; /* Set initial width */
+}
+
+.input.expanded {
+  width: 200px; /* Set expanded width */
+}
