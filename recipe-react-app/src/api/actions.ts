@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const API_URL = "https://scaling-parakeet-qrp44779v76f96pp-3000.app.github.dev/api/recipes";
+const API_URL = "https://vigilant-doodle-56xrrgg4gprc44v-3000.app.github.dev/api/recipes";
 
 export const getRecipeData = async (recipeName: string): Promise<Recipe> => {
   return new Promise<Recipe>((resolve, reject) => {
