@@ -1,3 +1,4 @@
+// Defining the structure of a Recipe
 interface Recipe {
   recipeName: string;
   ingredients: Ingredient[];
@@ -8,12 +9,14 @@ interface Recipe {
   reviews: Review[];
 }
 
+// Defining the structure of an Ingredient
 interface Ingredient {
   name: string;
   quantity: number;
   unit: string;
 }
 
+// Defining the structure of a Review
 interface Review {
   reviewer: string;
   rating: number;

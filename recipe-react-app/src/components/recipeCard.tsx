@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // Importing necessary libraries and components
 import { getRecipeData } from "../api/actions";
 import {
   Card,
@@ -10,6 +10,7 @@ import {
   Button,
 } from "@nextui-org/react";
 
+// Defining the structure of a Recipe
 interface Recipe {
   recipeName: string;
   ingredients: Ingredient[];
@@ -20,18 +21,21 @@ interface Recipe {
   reviews: Review[];
 }
 
+// Defining the structure of an Ingredient
 interface Ingredient {
   name: string;
   quantity: number;
   unit: string;
 }
 
+// Defining the structure of a Review
 interface Review {
   reviewer: string;
   rating: number;
   text: string;
 }
 
+// List of popular recipes
 const popularRecipes = [
   "Pizza", "Pasta", "Burger", "Salad", "Sushi", "Tacos", "Steak", "Soup", 
   "Sandwich", "Tea", "Coffee", "Chicken Curry", "Fried Rice", "Pancakes", 
@@ -40,6 +44,7 @@ const popularRecipes = [
   "Chocolate Cake", "Cheesecake", "Beef Stew"
 ];
 
+// RecipeCard component
 const RecipeCard: React.FC = () => {
   const [data, setData] = useState<Recipe | undefined>();
   const [loadingState, setLoadingState] = useState(false);
@@ -49,11 +54,13 @@ const RecipeCard: React.FC = () => {
   const [showReviews, setShowReviews] = useState(false);
   const [inputClicked, setInputClicked] = useState(false);
 
+   // Function to handle search
   const handleSearch = () => {
     console.log("Fetching Recipe Data...");
     console.log(recipeName);
     setLoadingState(true);
   
+    // Check if the recipe is in the list of popular recipes
     if (!popularRecipes.map(recipe => recipe.toLowerCase()).includes(recipeName.toLowerCase())) {
       setError(`No Recipe For ${recipeName} Today`);
       setLoadingState(false);
@@ -61,6 +68,7 @@ const RecipeCard: React.FC = () => {
       return;
     }
   
+     // Fetch recipe data
     getRecipeData(recipeName) // Fetch recipe data
       .then((res) => {
         setError("");
@@ -78,17 +86,24 @@ const RecipeCard: React.FC = () => {
       });
   };  
 
+  // The component starts rendering here
   return (
     <div>
       <Card className="max-w-[700px]">
-        <CardHeader className="flex gap-3">
+
+      // The CardHeader component is used to display the header of the card
+        <CardHeader className="flex gap-3"> 
           <form
+
+            // When the form is submitted, it prevents the default form submission event and calls the handleSearch function
             onSubmit={(e) => {
               e.preventDefault();
               handleSearch();
             }}
             style={{ margin: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
           >
+
+          // The CardBody component is used to display the body of the card
             <CardBody>
               <div className="flex flex-col items-center">
                 <p className="text-xl font-bold">Curious - <span className="text-2xl">[<span className="text-red-600 font-extrabold">?</span>]</span></p>
@@ -101,6 +116,8 @@ const RecipeCard: React.FC = () => {
                 label="Enter a Recipe Name"
                 value={recipeName}
                 className={`transition-all duration-500 ease-in-out transform ${isFocused ? 'scale-100' : 'scale-75'}`}
+                
+                // When the value of the input changes, it updates the recipeName state variable and sets the inputClicked state variable to true
                 onChange={(e) => {
                   setRecipeName(e.target.value);
                   setInputClicked(true);
@@ -108,6 +125,8 @@ const RecipeCard: React.FC = () => {
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
               />
+
+              // If there's an error, it displays the error message
               {error && <p className="text-xs text-red-600 text-center">{error}</p>}
               {error && 
                 <Card className="max-w-[400px] mt-4 bg-gray-200">
@@ -141,7 +160,9 @@ const RecipeCard: React.FC = () => {
             </div>
           </form>
         </CardHeader>
-        <Divider />
+        <Divider /> // A Divider component is used to visually separate different sections of the component
+
+        // If there's data, it displays the recipe data
         {data ? (
           <div className="flex flex-col items-center mt-2">
             <h1 className="text-xl font-bold text-center">Our {data.recipeName} Recipe For You Today</h1>
@@ -183,6 +204,8 @@ const RecipeCard: React.FC = () => {
                     <CardBody className="flex justify-center items-center">
                       <p className="text-lg">
                         Reviews:{" "}
+
+                        // A Button component is used to submit the form
                         <Button
                           className=""
                           color="primary"
@@ -198,18 +221,24 @@ const RecipeCard: React.FC = () => {
             </Card>
           </div>
         ) : (
+
+           // If there's no data, it displays a message
           <CardBody>
             <div className="flex flex-col items-center">
               <p className="text-xs font-bold text-gray-500">We Make Cooking Easy</p>
             </div>
           </CardBody>
         )}
-        <Divider />
+        <Divider />  // A Divider component is used to visually separate different sections of the component
         <CardFooter>
           <div className="flex flex-col items-left">
+
+          // If there's data, it displays a success message
             {data && (
               <p className="text-xs  text-gray-600 ">Last update successful.</p>
             )}
+
+            // If there's no data, it displays a waiting message
             {!data && (
               <p className="text-xs  text-gray-600 ">Waiting for input...</p>
             )}
@@ -221,6 +250,8 @@ const RecipeCard: React.FC = () => {
           <CardHeader>
             <h2 className="text-xl font-bold text-gray-500">Reviews</h2>
           </CardHeader>
+
+          // If showReviews is true and there's data, it displays the reviews
           <CardBody>
             <div className="grid grid-cols-2 gap-4">
               {data.reviews.map((review, index) => (
